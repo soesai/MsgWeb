@@ -1,0 +1,63 @@
+<html>
+<head>
+    <title>Choose your preferences</title>
+</head>
+<body>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+
+    
+
+window.extAsyncInit = function() {
+// the Messenger Extensions JS SDK is done loading
+    MessengerExtensions.getUserID(function success(uids) {
+        // User ID was successfully obtained. 
+        //var psid = uids.psid;
+        //console.log("psid", psid)
+            //$('.error').html(psid)
+
+    }, function error(err, errorMessage) {      
+        // Error handling code
+        //console.log(err, errorMessage)
+        //$('.error').html(errorMessage)
+    }); 
+
+    var url = new URL(window.location.href);
+    var oid = url.searchParams.get("oid");
+    console.log(oid);
+    document.getElementById('oid').value= oid;
+    
+    document.getElementById('submitButton').addEventListener('click', () => {
+            MessengerExtensions.requestCloseBrowser(function success() {
+                console.log("Webview closing");
+            }, function error(err) {
+                console.log(err);
+            });
+        });
+};
+
+
+</script>
+<form action="https://57af6a01.ngrok.io/getMachineOrderdate" method="get">
+    <div style="margin-top: 100px;">
+    <input type="hidden" name="psid" id="psid">
+    <input type="hidden" name="oid" id="oid">
+    <h3 style="margin-left: 100px;">Select Date :</h3>
+    <input type="date" style="width:300px; height: 50px; margin-left: 50px;" name="mod" id="mod">
+    <h3 style="margin-left: 100px;">Select Time :</h3>
+    <input type="time" style="width:300px; height: 50px; margin-left: 50px;" name="mot" id="mot">
+    <br>
+    <input type="submit" style="width:300px; height: 50px; margin-left: 50px;" value="Submit" id="submitButton">
+    </div>
+</form>
+</body>
+</html>
